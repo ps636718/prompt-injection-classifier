@@ -26,5 +26,4 @@ Data files are **not included** in this repository (excluded via `.gitignore`).
 Place your own CSV files here before running the notebook.
 
 Suitable open datasets:
-- [Prompt Injection Dataset — Hugging Face](https://huggingface.co/datasets/deepset/prompt-injections)
-- [JailbreakBench](https://jailbreakbench.github.io/)
+-Dataset - https://www.kaggle.com/competitions/data-sprint-prompt-based-classififcation/data
