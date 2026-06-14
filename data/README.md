@@ -23,7 +23,5 @@ This directory holds the training and test CSV files used by the classifier.
 ## Note
 
 Data files are **not included** in this repository (excluded via `.gitignore`).  
-Place your own CSV files here before running the notebook.
-
 Suitable open datasets:
 -Dataset - https://www.kaggle.com/competitions/data-sprint-prompt-based-classififcation/data
