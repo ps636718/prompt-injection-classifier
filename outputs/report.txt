@@ -1,0 +1,25 @@
+DataSprint PS5 — Final Classification Report
+=====================================================
+
+1. APPROACH:
+Our approach is to build a supervised machine learning model for binary classification, distinguishing between 'malicious' (potential prompt injections/jailbreaks) and 'benign' text prompts. The goal is to detect and mitigate harmful inputs to large language models (LLMs) by identifying patterns indicative of adversarial intent.
+
+2. METHODOLOGY:
+
+*   **Data Loading**: Datasets were loaded using Pandas, ensuring a clear separation between training and testing sets.
+*   **Preprocessing & Cleaning**: Missing values were handled by median imputation for numerical features and filling with empty strings for text. Text columns ('Prompt', 'question1', 'question2') were merged into a single 'clean_text' column. Text normalization involved lowercasing, URL removal, special character filtering, stopword removal, and lemmatization to standardize the input.
+*   **Feature Engineering**: Text data was transformed into numerical features using TF-IDF (Term Frequency-Inverse Document Frequency) with `ngram_range=(1, 2)` and `max_features=15000`. This captures term importance and common phrases. Additionally, meta-features such as 'word_count', 'char_count', custom 'jailbreak_keyword_flags', and 'special_char_density' were engineered and scaled using `StandardScaler` to provide explicit signals to the models.
+*   **Model Training & Selection**: Multiple classification algorithms (Logistic Regression, LinearSVC, Multinomial Naive Bayes, Random Forest) were trained on a 80/20 train-validation split (stratified). Performance was evaluated using Accuracy, Precision, and F1-Score.
+*   **Hyperparameter Tuning & Ensemble**: `GridSearchCV` was employed to fine-tune the `C` parameter for Logistic Regression and LinearSVC to optimize F1-Score. An ensemble Voting Classifier (hard voting) combining the tuned LinearSVC, Logistic Regression, and Random Forest was used to leverage the strengths of individual models and improve overall robustness.
+
+3. IMPLEMENTATION DETAILS:
+
+*   **Libraries**: Python libraries such as `pandas`, `numpy`, `scikit-learn` (for preprocessing, feature extraction, and models), `nltk` (for stopwords and lemmatization), and `matplotlib` (for visualizations) were utilized.
+*   **Feature Set**: The final feature matrix combined TF-IDF features with scaled meta-features (word count, character count, jailbreak keyword flags, and special character density).
+*   **Model Selection Criterion**: F1-Score was chosen as the primary metric due to potential class imbalance and the need to balance precision and recall in detecting malicious prompts.
+*   **Balanced Class Weights**: `class_weight='balanced'` was applied to Logistic Regression, LinearSVC, and Random Forest models to address potential class imbalances in the training data, ensuring models do not overly favor the majority class.
+
+PERFORMANCE:
+Best Model : Ensemble (SVC+LR+RF)
+Accuracy   : 0.9482
+F1 Score   : 0.9464

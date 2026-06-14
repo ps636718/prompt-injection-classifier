@@ -1,0 +1,48 @@
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+*.so
+
+# ── Virtual Environments ──────────────────────────────────────────────────────
+venv/
+.venv/
+env/
+.env
+ENV/
+
+# ── Jupyter ───────────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+
+# ── Large Data Files — do NOT commit raw training data ───────────────────────
+data/merged_train_70.csv
+data/merged_test_30.csv
+data/*.csv
+
+# ── Large Model Binaries — too big for GitHub (107 MB) ───────────────────────
+outputs/model.pkl
+outputs/tfidf_vectorizer.pkl
+
+# Keep predictions and reports in git
+!outputs/predictions.csv
+!outputs/report.txt
+
+# ── OS ────────────────────────────────────────────────────────────────────────
+.DS_Store
+.DS_Store?
+Thumbs.db
+*.swp
+*~
+
+# ── IDE ───────────────────────────────────────────────────────────────────────
+.vscode/
+.idea/
+*.code-workspace
+
+# ── Google Colab ──────────────────────────────────────────────────────────────
+drive/
+sample_data/
