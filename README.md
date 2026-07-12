@@ -55,7 +55,7 @@
 
 ---
 
-##  Overview
+##Overview
 
 This project implements a **supervised binary text classifier** that protects large language models (LLMs) from adversarial inputs. It was developed as a competition entry for **DATASPRINT PS5** at NIST University.
 
@@ -68,7 +68,7 @@ The classifier processes raw text prompts, extracts a rich set of NLP features, 
 
 ---
 
-##  Problem Statement
+##Problem Statement
 
 As LLMs become widely deployed, **prompt injection and jailbreak attacks** have emerged as critical security threats. Attackers craft inputs designed to:
 
@@ -83,7 +83,7 @@ Such attacks can cause models to leak sensitive data, bypass content policies, o
 
 ---
 
-##  Key Results
+##Key Results
 
 ```
 ╔══════════════════════════════════════════════════════════╗
@@ -100,7 +100,7 @@ Such attacks can cause models to leak sensitive data, bypass content policies, o
 
 ---
 
-##  Pipeline Architecture
+##Pipeline Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -157,11 +157,11 @@ Such attacks can cause models to leak sensitive data, bypass content policies, o
 
 ---
 
-##  Feature Engineering
+##Feature Engineering
 
 The final feature matrix has **15,019 dimensions** — 15,000 TF-IDF + 19 engineered meta-features:
 
-###  TF-IDF Representation
+###TF-IDF Representation
 ```python
 TfidfVectorizer(
     ngram_range=(1, 2),    # unigrams + bigrams
@@ -171,7 +171,7 @@ TfidfVectorizer(
 )
 ```
 
-###  Meta-Features
+###Meta-Features
 
 | Feature | Type | Rationale |
 |---------|------|-----------|
@@ -180,7 +180,7 @@ TfidfVectorizer(
 | `special_char_density` | float [0–1] | Obfuscated attacks use more symbols |
 | **18× jailbreak keyword flags** | binary 0/1 | Domain-specific adversarial signals |
 
-###  Jailbreak Keyword Patterns
+###Jailbreak Keyword Patterns
 ```python
 JAILBREAK_KEYWORDS = [
     'jailbreak',              'dan ',
@@ -199,7 +199,7 @@ These binary flags give the model **explicit domain knowledge** that TF-IDF alon
 
 ---
 
-##  Models & Comparison
+##Models & Comparison
 
 All models were trained on an **80/20 stratified split**, with `class_weight='balanced'` to handle label imbalance. F1-Score is the primary ranking metric.
 
@@ -211,7 +211,7 @@ All models were trained on an **80/20 stratified split**, with `class_weight='ba
 | 4th | Random Forest | 100 estimators, balanced |
 | 5th | Multinomial Naive Bayes | α = 0.5 |
 
-### Why the Ensemble Wins
+###Why the Ensemble Wins
 
 The **VotingClassifier** with hard voting combines three diverse model families:
 
@@ -223,7 +223,7 @@ RF     →  Non-linear patterns, robust to noisy features
 VOTE   →  Outlier predictions get outvoted; more stable
 ```
 
-### Hyperparameter Tuning (GridSearchCV, cv=3, scoring='f1')
+###Hyperparameter Tuning (GridSearchCV, cv=3, scoring='f1')
 
 ```
 Logistic Regression:   Best C = (see notebook output)
@@ -232,7 +232,7 @@ LinearSVC:             Best C, loss = (see notebook output)
 
 ---
 
-##  Project Structure
+##Project Structure
 
 ```
 prompt-injection-classifier/
@@ -275,22 +275,22 @@ prompt-injection-classifier/
 
 ---
 
-##  Quick Start
+##Quick Start
 
-### 1 — Clone
+###1 — Clone
 
 ```bash
 git clone https://github.com/<your-username>/prompt-injection-classifier.git
 cd prompt-injection-classifier
 ```
 
-### 2 — Install Dependencies
+###2 — Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3 — Add Data
+###3 — Add Data
 
 ```
 data/
@@ -298,7 +298,7 @@ data/
 └── merged_test_30.csv    # must have: Prompt (isMalicious optional)
 ```
 
-### 4 — Run the Notebook
+###4 — Run the Notebook
 
 **Locally (Jupyter):**
 ```bash
@@ -307,7 +307,7 @@ jupyter notebook notebooks/prompt_based_classification.ipynb
 
 **Google Colab:** Upload the notebook and update the `TRAIN_PATH` / `TEST_PATH` variables to point to your Drive location.
 
-### 5 — Run Inference on New Prompts
+###5 — Run Inference on New Prompts
 
 ```python
 import joblib, scipy.sparse as sp
@@ -336,7 +336,7 @@ print(predict_prompt("What is the capital of France?"))
 
 ---
 
-##  Dataset Schema
+##Dataset Schema
 
 | Column | Type | Required | Description |
 |--------|------|:--------:|-------------|
@@ -351,9 +351,9 @@ print(predict_prompt("What is the capital of France?"))
 
 ---
 
-##  Methodology Deep Dive
+##Methodology Deep Dive
 
-### Why TF-IDF with Bigrams?
+###Why TF-IDF with Bigrams?
 
 Unigrams miss multi-word attack patterns. Bigrams capture them explicitly:
 
@@ -365,7 +365,7 @@ Unigrams miss multi-word attack patterns. Bigrams capture them explicitly:
 
 `sublinear_tf=True` applies log-scaling to term frequencies, preventing attackers from gaming the classifier by repeating keywords.
 
-### Why F1 Over Accuracy?
+###Why F1 Over Accuracy?
 
 In a security context, both error types are costly:
 
@@ -380,7 +380,7 @@ F1 = 2 × (Precision × Recall) / (Precision + Recall)
 
 Our model achieves **F1 = 0.9464** — meaning it is both precise and highly sensitive.
 
-### Why `class_weight='balanced'`?
+###Why `class_weight='balanced'`?
 
 Real-world prompt datasets skew toward benign. Without correction, a naive model learns to predict "benign" for everything and still scores ~80% accuracy. Balanced weighting re-scales the loss for each class:
 
@@ -392,7 +392,7 @@ This forces the model to treat each malicious example as more important during t
 
 ---
 
-##  Outputs
+##Outputs
 
 | File | Size | Description |
 |------|------|-------------|
@@ -405,7 +405,7 @@ This forces the model to treat each malicious example as more important during t
 
 ---
 
-## 🔭 Future Work
+##Future Work
 
 - [ ] **Transformer fine-tuning** — replace TF-IDF with BERT / DistilBERT embeddings
 - [ ] **Real-time API** — Flask/FastAPI endpoint for live prompt screening
@@ -417,13 +417,13 @@ This forces the model to treat each malicious example as more important during t
 
 ---
 
-##  License
+##License
 
 This project is licensed under the MIT License — see [LICENSE](LICENSE) for details.
 
 ---
 
-##  Author
+##Author
 
 <div align="center">
 
