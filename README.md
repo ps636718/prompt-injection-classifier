@@ -10,7 +10,7 @@
     I N J E C T I O N   C L A S S I F I E R
 ```
 
-### 🛡️ Detecting Malicious AI Prompts with Classical NLP + Ensemble ML
+###  Detecting Malicious AI Prompts with Classical NLP + Ensemble ML
 
 <br/>
 
@@ -37,32 +37,32 @@
 
 ---
 
-## 📌 Table of Contents
+##  Table of Contents
 
-- [🌐 Overview](#-overview)
-- [🎯 Problem Statement](#-problem-statement)
-- [🏆 Key Results](#-key-results)
-- [🏗️ Pipeline Architecture](#️-pipeline-architecture)
-- [✨ Feature Engineering](#-feature-engineering)
-- [🤖 Models & Comparison](#-models--comparison)
-- [📁 Project Structure](#-project-structure)
-- [🚀 Quick Start](#-quick-start)
-- [📦 Dataset Schema](#-dataset-schema)
-- [🔬 Methodology Deep Dive](#-methodology-deep-dive)
-- [📤 Outputs](#-outputs)
-- [🔭 Future Work](#-future-work)
-- [👨‍💻 Author](#-author)
+- [ Overview](#-overview)
+- [ Problem Statement](#-problem-statement)
+- [ Key Results](#-key-results)
+- [ Pipeline Architecture](#️-pipeline-architecture)
+- [Feature Engineering](#-feature-engineering)
+- [ Models & Comparison](#-models--comparison)
+- [ Project Structure](#-project-structure)
+- [ Quick Start](#-quick-start)
+- [ Dataset Schema](#-dataset-schema)
+- [ Methodology Deep Dive](#-methodology-deep-dive)
+- [ Outputs](#-outputs)
+- [ Future Work](#-future-work)
+- [ Author](#-author)
 
 ---
 
-## 🌐 Overview
+##  Overview
 
 This project implements a **supervised binary text classifier** that protects large language models (LLMs) from adversarial inputs. It was developed as a competition entry for **DATASPRINT PS5** at NIST University.
 
 | Label | Class | Description |
 |:-----:|-------|-------------|
-| `0` | ✅ **Benign** | Safe, legitimate user prompts |
-| `1` | ⚠️ **Malicious** | Prompt injections, jailbreaks, adversarial inputs |
+| `0` | **Benign** | Safe, legitimate user prompts |
+| `1` | **Malicious** | Prompt injections, jailbreaks, adversarial inputs |
 
 The classifier processes raw text prompts, extracts a rich set of NLP features, and predicts whether each prompt is an attempt to manipulate an AI system.
 
@@ -83,7 +83,7 @@ Such attacks can cause models to leak sensitive data, bypass content policies, o
 
 ---
 
-## 🏆 Key Results
+##  Key Results
 
 ```
 ╔══════════════════════════════════════════════════════════╗
@@ -100,7 +100,7 @@ Such attacks can cause models to leak sensitive data, bypass content policies, o
 
 ---
 
-## 🏗️ Pipeline Architecture
+##  Pipeline Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -157,7 +157,7 @@ Such attacks can cause models to leak sensitive data, bypass content policies, o
 
 ---
 
-## ✨ Feature Engineering
+##  Feature Engineering
 
 The final feature matrix has **15,019 dimensions** — 15,000 TF-IDF + 19 engineered meta-features:
 
@@ -171,7 +171,7 @@ TfidfVectorizer(
 )
 ```
 
-### 🔢 Meta-Features
+###  Meta-Features
 
 | Feature | Type | Rationale |
 |---------|------|-----------|
@@ -180,7 +180,7 @@ TfidfVectorizer(
 | `special_char_density` | float [0–1] | Obfuscated attacks use more symbols |
 | **18× jailbreak keyword flags** | binary 0/1 | Domain-specific adversarial signals |
 
-### 🚨 Jailbreak Keyword Patterns
+###  Jailbreak Keyword Patterns
 ```python
 JAILBREAK_KEYWORDS = [
     'jailbreak',              'dan ',
@@ -199,7 +199,7 @@ These binary flags give the model **explicit domain knowledge** that TF-IDF alon
 
 ---
 
-## 🤖 Models & Comparison
+##  Models & Comparison
 
 All models were trained on an **80/20 stratified split**, with `class_weight='balanced'` to handle label imbalance. F1-Score is the primary ranking metric.
 
@@ -232,25 +232,25 @@ LinearSVC:             Best C, loss = (see notebook output)
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 prompt-injection-classifier/
 │
-├── 📓 notebooks/
+├──  notebooks/
 │   └── prompt_based_classification.ipynb    ← Full end-to-end notebook
 │
-├── 🐍 src/
+├── src/
 │   ├── preprocess.py                        ← Text cleaning & normalization
 │   ├── features.py                          ← TF-IDF + meta-feature pipeline
 │   ├── train.py                             ← Model training & evaluation
 │   └── predict.py                           ← Inference on new prompts
 │
-├── 📊 data/
+├──  data/
 │   ├── merged_train_70.csv                  ← Training set (70%)
 │   └── merged_test_30.csv                   ← Test set (30%)
 │
-├── 📤 outputs/
+├──  outputs/
 │   ├── model.pkl                            ← Saved ensemble model (107 MB)
 │   ├── tfidf_vectorizer.pkl                 ← Fitted TF-IDF vectorizer (580 KB)
 │   ├── predictions.csv                      ← 31,619 test predictions
@@ -258,13 +258,13 @@ prompt-injection-classifier/
 │   ├── results_dashboard.png                ← 3-panel results dashboard
 │   └── report.txt                           ← Full classification report
 │
-├── 🧪 tests/
+├──  tests/
 │   └── test_preprocess.py                   ← Unit tests for text cleaning
 │
-├── 📄 docs/
+├──  docs/
 │   └── methodology.md                       ← Extended methodology notes
 │
-├── ⚙️ .github/
+├── .github/
 │   └── workflows/
 │       └── ci.yml                           ← GitHub Actions CI pipeline
 │
@@ -275,7 +275,7 @@ prompt-injection-classifier/
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### 1 — Clone
 
@@ -336,18 +336,18 @@ print(predict_prompt("What is the capital of France?"))
 
 ---
 
-## 📦 Dataset Schema
+##  Dataset Schema
 
 | Column | Type | Required | Description |
 |--------|------|:--------:|-------------|
-| `Prompt` | string | ✅ | The user's text prompt (primary text column) |
-| `isMalicious` | int 0/1 | ✅ train | Ground truth label |
+| `Prompt` | string |  | The user's text prompt (primary text column) |
+| `isMalicious` | int 0/1 | train | Ground truth label |
 | `question1` | string | ➖ | Secondary text column (merged if present) |
 | `question2` | string | ➖ | Tertiary text column (merged if present) |
 | `Length` | float | ➖ | Pre-computed prompt length (median-imputed) |
 | `Perplexity` | float | ➖ | Language model perplexity score |
 
-> ⚠️ **Data not included** in this repo. The training set contained **31,619+ labeled prompts** drawn from a mix of prompt injection and general NLP datasets.
+>  **Data not included** in this repo. The training set contained **31,619+ labeled prompts** drawn from a mix of prompt injection and general NLP datasets.
 
 ---
 
@@ -358,9 +358,9 @@ print(predict_prompt("What is the capital of France?"))
 Unigrams miss multi-word attack patterns. Bigrams capture them explicitly:
 
 ```
-"ignore" + "instructions"  →  bigram: "ignore instructions"  ⚠️
-"act"    + "as"            →  bigram: "act as"               ⚠️
-"system" + "prompt"        →  bigram: "system prompt"        ⚠️
+"ignore" + "instructions"  →  bigram: "ignore instructions"  
+"act"    + "as"            →  bigram: "act as"               
+"system" + "prompt"        →  bigram: "system prompt"        
 ```
 
 `sublinear_tf=True` applies log-scaling to term frequencies, preventing attackers from gaming the classifier by repeating keywords.
@@ -392,7 +392,7 @@ This forces the model to treat each malicious example as more important during t
 
 ---
 
-## 📤 Outputs
+##  Outputs
 
 | File | Size | Description |
 |------|------|-------------|
@@ -423,7 +423,7 @@ This project is licensed under the MIT License — see [LICENSE](LICENSE) for de
 
 ---
 
-## 👨‍💻 Author
+##  Author
 
 <div align="center">
 
