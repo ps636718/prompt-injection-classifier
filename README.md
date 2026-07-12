@@ -68,7 +68,7 @@ The classifier processes raw text prompts, extracts a rich set of NLP features, 
 
 ---
 
-## 🎯 Problem Statement
+##  Problem Statement
 
 As LLMs become widely deployed, **prompt injection and jailbreak attacks** have emerged as critical security threats. Attackers craft inputs designed to:
 
@@ -161,7 +161,7 @@ Such attacks can cause models to leak sensitive data, bypass content policies, o
 
 The final feature matrix has **15,019 dimensions** — 15,000 TF-IDF + 19 engineered meta-features:
 
-### 📝 TF-IDF Representation
+###  TF-IDF Representation
 ```python
 TfidfVectorizer(
     ngram_range=(1, 2),    # unigrams + bigrams
@@ -351,7 +351,7 @@ print(predict_prompt("What is the capital of France?"))
 
 ---
 
-## 🔬 Methodology Deep Dive
+##  Methodology Deep Dive
 
 ### Why TF-IDF with Bigrams?
 
@@ -417,7 +417,7 @@ This forces the model to treat each malicious example as more important during t
 
 ---
 
-## 📄 License
+##  License
 
 This project is licensed under the MIT License — see [LICENSE](LICENSE) for details.
 
