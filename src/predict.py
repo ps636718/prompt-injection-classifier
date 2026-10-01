@@ -77,11 +77,20 @@ class PromptClassifier:
         X = self._build_features(text)
         label = int(self.model.predict(X)[0])
 
-        # Estimate confidence using the probabilistic sub-models in the ensemble (LR + RF)
+        # Estimate confidence using calibrated probabilities across ensemble sub-models
         try:
-            prob_lr = float(self.model.named_estimators_["lr"].predict_proba(X)[0][label])
-            prob_rf = float(self.model.named_estimators_["rf"].predict_proba(X)[0][label])
-            confidence = round(float((prob_lr + prob_rf) / 2.0), 4)
+            prob_lr_1 = float(self.model.named_estimators_["lr"].predict_proba(X)[0][1])
+            df_svc = float(self.model.named_estimators_["svc"].decision_function(X)[0])
+            prob_svc_1 = float(1.0 / (1.0 + np.exp(-df_svc)))
+
+            if "rf" in self.model.named_estimators_:
+                prob_rf_1 = float(self.model.named_estimators_["rf"].predict_proba(X)[0][1])
+                prob_1 = (prob_lr_1 + prob_svc_1 + prob_rf_1) / 3.0
+            else:
+                prob_1 = (prob_lr_1 + prob_svc_1) / 2.0
+
+            prob_selected = prob_1 if label == 1 else (1.0 - prob_1)
+            confidence = round(float(max(prob_selected, 0.50)), 4)
         except Exception:
             confidence = 1.0
 

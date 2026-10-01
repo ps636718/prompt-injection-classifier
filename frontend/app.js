@@ -4,18 +4,13 @@
  */
 
 // ── Configuration ─────────────────────────────────────────────────────────────
-// Default backend URL: user can override via UI or localStorage
-const DEFAULT_API_URL = "http://localhost:8000";
+// Default backend URL: pointing directly to the deployed Render backend
+const DEFAULT_API_URL = "https://prompt-injection-classifier.onrender.com";
 
 function getApiBaseUrl() {
   const saved = localStorage.getItem("PROMPT_CLASSIFIER_API_URL");
   if (saved && saved.trim()) {
     return saved.trim().replace(/\/+$/, "");
-  }
-  // If hosted on the same domain as backend (or reverse proxy)
-  if (window.location.hostname !== "localhost" && window.location.hostname !== "127.0.0.1" && window.location.protocol.startsWith("http")) {
-    // In production without saved URL, default to placeholder or current origin
-    return window.location.origin;
   }
   return DEFAULT_API_URL;
 }
