@@ -31,7 +31,7 @@ from scipy.sparse import hstack
 from pathlib import Path
 
 from src.preprocess import clean_text
-from src.features import keyword_flags, special_char_density, structural_features
+from src.features import keyword_flags, special_char_density
 
 # Number of meta-features added during training (must match training pipeline: 18 keywords + 1 density)
 _N_META_FEATURES = 19
