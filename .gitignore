@@ -23,9 +23,9 @@ data/merged_train_70.csv
 data/merged_test_30.csv
 data/*.csv
 
-# ── Large Model Binaries — too big for GitHub (107 MB) ───────────────────────
-outputs/model.pkl
-outputs/tfidf_vectorizer.pkl
+# ── Model Binaries (Tracked via Git LFS in .gitattributes) ───────────────────
+# outputs/model.pkl
+# outputs/tfidf_vectorizer.pkl
 
 # Keep predictions and reports in git
 !outputs/predictions.csv
